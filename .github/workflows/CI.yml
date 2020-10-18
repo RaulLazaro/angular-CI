@@ -23,12 +23,15 @@ jobs:
           node-version: '12.x'
       - uses: actions/cache@v2.1.2 # this allows for re-using node_modules caching, making builds a bit faster.
         with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-    
             
       - name: Install
+        if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Lint
         run: npm run lint
