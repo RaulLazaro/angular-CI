@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v2.1.2 #this installs node and npm for us
         with:
           node-version: '12.x'
-          
+
       - name: Cache Node Modules
         id: cache-node-modules
         uses: actions/cache@v2.1.2 # this allows for re-using node_modules caching, making builds a bit faster.
@@ -30,7 +30,7 @@ jobs:
           key: node-modules-${{ hashFiles('package-lock.json') }}
             
       - name: Install
-        if: steps.node-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Lint
         run: npm run lint
