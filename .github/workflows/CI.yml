@@ -31,8 +31,8 @@ jobs:
       - name: Install
         run: npm install
       - name: Lint
-        run: npm lint
+        run: npm run lint
       - name: Build
         run: npm run build -- --prod
       - name: Test
-        run: npm test -- --configuration=ci
+        run: npm run test -- --configuration=ci
