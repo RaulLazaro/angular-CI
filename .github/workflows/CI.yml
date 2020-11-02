@@ -18,13 +18,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.1.2 #this installs node and npm for us
+      - uses: actions/setup-node@v2 #this installs node and npm for us
         with:
           node-version: '12.x'
 
       - name: Cache Node Modules
         id: cache-node-modules
-        uses: actions/cache@v2.1.2 # this allows for re-using node_modules caching, making builds a bit faster.
+        uses: actions/cache@v2 # this allows for re-using node_modules caching, making builds a bit faster.
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
@@ -38,3 +38,10 @@ jobs:
         run: npm run build -- --prod
       - name: Test
         run: npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage
+      - name: Commit coverage
+        uses: EndBug/add-and-commit@v5
+        with:
+          message: "Code Coverage"
+          add: "/coverage"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
