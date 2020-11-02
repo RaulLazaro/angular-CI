@@ -18,12 +18,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v1 #this installs node and npm for us
         with:
           node-version: '12.x'
-
       - name: Cache Node Modules
         id: cache-node-modules
         uses: actions/cache@v2 
@@ -34,18 +31,14 @@ jobs:
             ${{ runner.os }}-node-
             
       - name: Install
-        # if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
       - name: Lint
         run: npm run lint
       - name: Build
         run: npm run build -- --prod
       - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage
+        run: npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage --source-map=false
       - name: Commit coverage
-        uses: EndBug/add-and-commit@v5
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          message: "Code Coverage"
-          add: "coverage -f"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: Code Coverage
