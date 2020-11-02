@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-node-
             
       - name: Install
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        # if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
       - name: Lint
         run: npm run lint
