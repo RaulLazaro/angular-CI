@@ -29,7 +29,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-            
       - name: Install
         run: npm ci
       - name: Lint
@@ -37,8 +36,4 @@ jobs:
       - name: Build
         run: npm run build -- --prod
       - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage --source-map=false
-      - name: Commit coverage
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Code Coverage
+        run: npm run test -- --watch=false --browsers=ChromeHeadless --source-map=false
